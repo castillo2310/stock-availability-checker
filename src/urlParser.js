@@ -1,6 +1,10 @@
+/**
+ * Gets product id from given url
+ * @param url
+ * @returns {string}
+ */
 const getProductId = (url) => {
     try {
-
         let slashPosition = url.lastIndexOf('/');
         if ( !url[slashPosition + 1] ) slashPosition = url.substring(0, slashPosition).lastIndexOf('/');
         if( slashPosition === -1 ) throw new Error('SlashPosition not found.');
@@ -12,7 +16,8 @@ const getProductId = (url) => {
 
         return productQueryString.substring(0, hyphenPosition);
     }catch (e) {
-        console.log('Error: ',e);
+        console.log('UrlParseError. Error: ',e);
+        console.log('UrlParseError. URL: ',url)
     }
 };
 
