@@ -1,6 +1,6 @@
-const request = require('request-promise-native');
 const prompts = require('prompts');
-const getProductId = require('./utils/urlParser');
+const getProductId = require('./src/urlParser');
+const isProductAvailable = require('./src/productAvailability');
 
 try {
 
@@ -21,13 +21,8 @@ try {
         if( !productId ) throw new Error('ProductId not found.');
 
         const stockUrl = 'https://www.elcorteingles.es/api/stock?products='+productId;
-        request(stockUrl, {json: true}).then( (result) => {
-
-            if( result.ADD ) console.log('Product is available.');
-            else console.log('Product sold out.');
-
-        }).catch((error) => {
-            console.log('Error: ', error);
+        isProductAvailable(stockUrl).then( (available) => {
+           console.log('Product available: ',available);
         });
 
     }).catch((error) => {
