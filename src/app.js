@@ -1,26 +1,22 @@
 const request = require('request-promise-native');
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
+const getProductId = require('./utils/urlParser');
 
-const productUrl = 'https://www.elcorteingles.es/deportes/A23220717-colchoneta-ejercicios-180-x-50-x-08-cm-boomerang/';
+const productUrl = 'https://www.elcorteingles.es/electronica/A24296906-impresora-multifuncion-hp-deskjet-2630-wi-fi-instant-ink';
 
-request(productUrl).then( (result) => {
-    const dom = new JSDOM(result);
-    const document = dom.window.document;
-
-    const element = document.querySelector('a.event.add-to-cart');
-    const productId = element.dataset.productId;
+try {
+    const productId = getProductId(productUrl);
+    if( !productId ) throw new Error('ProductId not found.');
 
     const stockUrl = 'https://www.elcorteingles.es/api/stock?products='+productId;
     request(stockUrl, {json: true}).then( (result) => {
-        console.log(result);
+
         if( result.ADD ) console.log('Product is available.');
-        else console.log('Product sold out.')
+        else console.log('Product sold out.');
+
     }).catch((error) => {
-        console.log('error', error);
+        console.log('Error: ', error);
     });
 
-
-}).catch((error) => {
-    console.log('error', error);
-});
+}catch (e) {
+    console.log('Error: ', e);
+}
