@@ -8,7 +8,7 @@ const sendMail = require('./email');
 const notify = (data, url) => {
     console.log('Product '+url+' is available.');
 
-    if( Object.keys(data.email).length ) sendMail(data.email.smtp, data.email.port, data.email.account, data.email.password, url);
+    if( Object.keys(data.email).length ) sendMail(data.email.smtp, data.email.port, data.email.user, data.email.password, url);
 };
 
 module.exports = notify;

@@ -1,7 +1,7 @@
 
 const getProductId = require('./src/urlParser');
 const isProductAvailable = require('./src/productAvailability');
-const requestUserData = require('./src/dataRequester');
+const requestUserData = require('./src/userDataRequester');
 const notify = require('./src/notifier');
 
 /**
@@ -15,26 +15,29 @@ const notify = require('./src/notifier');
 try {
 
     requestUserData().then((userData) => {
-
         if( !userData.productUrl.length ) return console.log('At least one product url is required.');
 
-        for(let i=0;i<userData.productUrl.length;i++){
-            try {
-                let productUrl = userData.productUrl[i];
-                let productId = getProductId(productUrl);
-                if (!productId) throw new Error('ProductId not found.');
+        let interval = setInterval(() => {
 
-                const stockUrl = 'https://www.elcorteingles.es/api/stock?products=' + productId;
-                isProductAvailable(stockUrl).then((available) => {
+            for(let i=0;i<userData.productUrl.length;i++){
+                try {
+                    let productUrl = userData.productUrl[i];
+                    let productId = getProductId(productUrl);
+                    if (!productId) throw new Error('ProductId not found.');
 
-                    if( available ){
-                        notify(userData.notification, productUrl);
-                    }
-                });
-            }catch (e) {
-                console.log('Error: ', e);
+                    const stockUrl = 'https://www.elcorteingles.es/api/stock?products=' + productId;
+                    isProductAvailable(stockUrl).then((available) => {
+
+                        if( available ){
+                            notify(userData.notification, productUrl);
+                        }
+                    });
+                }catch (e) {
+                    console.log('Error: ', e);
+                }
             }
-        }
+
+        }, 30000);
     });
 
 }catch (e) {
