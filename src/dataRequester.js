@@ -6,7 +6,7 @@ const prompts = require('prompts');
  * @returns {Promise<{productUrl: []}>}
  */
 const requestUserData = async () => {
-    const userData = {productUrl: []};
+    const userData = {productUrl: [], notification:{}};
     let keepAsking = true;
     while( keepAsking ){
 
@@ -17,7 +17,37 @@ const requestUserData = async () => {
 
     }
 
+    userData.notification.email = await askForEmailData();
+
     return userData;
+};
+
+const askForEmailData = async () => {
+    const questions = [
+        {
+            name: 'smtp',
+            type: 'text',
+            message: 'Enter SMTP host'
+        },
+        {
+            name: 'port',
+            type: 'number',
+            message: 'Enter SMTP port'
+        },
+        {
+            name: 'account',
+            type: 'text',
+            message: 'Enter your email address'
+        },
+        {
+            name: 'password',
+            type: 'password',
+            message: 'Enter your email password'
+        }
+    ];
+    const onCancel = () => process.exit();
+
+    return await prompts(questions, {onCancel});
 };
 
 const askForProductUrl = async () => {
