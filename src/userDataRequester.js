@@ -35,14 +35,14 @@ const askForEmailData = async () => {
             message: 'Enter SMTP port'
         },
         {
-            name: 'account',
+            name: 'user',
             type: 'text',
-            message: 'Enter your email address'
+            message: 'Enter SMTP user'
         },
         {
             name: 'password',
             type: 'password',
-            message: 'Enter your email password'
+            message: 'Enter SMTP password'
         }
     ];
     const onCancel = () => process.exit();
