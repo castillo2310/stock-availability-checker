@@ -1,31 +1,32 @@
 const nodemailer = require('nodemailer');
+/**
+ * Sends email to the provided email.
+ * @param smtp
+ * @param port
+ * @param account
+ * @param password
+ * @param productUrl
+ * @returns {Promise<void>}
+ */
+const sendMail = async (smtp, port, account, password, productUrl) => {
 
-const sendMail = async () => {
-
-    let testAccount = await nodemailer.createTestAccount();
-
-    let transporter = nodemailer.createTransport({
-        host: "smtp.ethereal.email",
-        port: 587,
-        secure: false, // true for 465, false for other ports
+    const transporter = nodemailer.createTransport({
+        host: smtp,
+        port: port,
+        secure: false,
         auth: {
-            user: testAccount.user,
-            pass: testAccount.pass
+            user: account,
+            pass: password
         }
     });
 
     return transporter.sendMail({
-        from: '"Castillo" <foo@example.com>', // sender address
-        to: "castillo2310@gmail.com", // list of receivers
-        subject: "Hello ✔", // Subject line
-        text: "Hello world?", // plain text body
-        html: "<b>Hello world?</b>" // html body
+        from: '<'+account+'>',
+        to: account,
+        subject: "ECIStockCheck: Product available ✔",
+        html: "Product <a href='"+productUrl+"'>"+productUrl+"</a> is AVAILABLE."
     });
 
 };
 
-sendMail().then((result) => {
-    console.log('result', result);
-}).catch((error) => {
-    console.log('error', error);
-});
+module.exports = sendMail;
