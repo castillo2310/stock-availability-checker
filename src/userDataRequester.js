@@ -17,9 +17,31 @@ const requestUserData = async () => {
 
     }
 
-    userData.notification.email = await askForEmailData();
-
+    userData.notification = await askForNotificationData();
     return userData;
+};
+
+const askForNotificationData = async () => {
+    const notification = {};
+
+    const questions = [
+        {
+            name: 'notificationType',
+            type: 'select',
+            message: 'Which notification method do you prefer?',
+            choices: [
+                { title: 'None', description: 'Only through console', value: 'none' },
+                { title: 'Email', description: 'SMTP data required', value: 'email' }
+            ],
+            initial: 0
+        }
+    ];
+
+    const onCancel = () => process.exit();
+    const answer = await prompts(questions, {onCancel});
+
+    if( answer.notificationType === 'email' ) notification.email = await askForEmailData();
+    return notification;
 };
 
 const askForEmailData = async () => {
