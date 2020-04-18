@@ -1,8 +1,10 @@
 const prompts = require('prompts');
+const configManager = require('./configManager');
 
 /**
  * Request required user data.
  * Keeps asking for product url until the user enters empty value
+ * Saves requested data to config file
  * @returns {Promise<{productUrl: []}>}
  */
 const requestUserData = async () => {
@@ -18,6 +20,8 @@ const requestUserData = async () => {
     }
 
     userData.notification = await askForNotificationData();
+
+    await configManager.saveFromUserRequest(userData);
     return userData;
 };
 

@@ -3,36 +3,34 @@ const getProductId = require('./src/urlParser');
 const isProductAvailable = require('./src/productAvailability');
 const requestUserData = require('./src/userDataRequester');
 const notify = require('./src/notifier');
-
-/**
- * TODO:
- * - Send notification when a product is available.
- * - Loop until all products are available or execution is stopped.
- * - Stop requesting availability of a product if already is available.
- * - User can provide a file with the required data instead of using the prompt (by argv).
- * - Prompt validation
- * - Global package
- */
+const configManager = require('./src/configManager');
 
 try {
 
-    requestUserData().then((userData) => {
-        if( !userData.productUrl.length ) return console.log('At least one product url is required.');
+    requestUserData().then(() => {
         console.log('Starting to check availability...');
 
         let interval = setInterval(() => {
 
-            for(let i=0;i<userData.productUrl.length;i++){
+            let soldOutProducts =  configManager.getSoldOutProductsUrl();
+            if( !soldOutProducts.length ){
+                clearInterval(interval);
+                return console.log('All products are available. Script ends.')
+            }
+
+            console.log('Checking products');
+            for(let i=0;i<soldOutProducts.length;i++){
                 try {
-                    let productUrl = userData.productUrl[i];
-                    let productId = getProductId(productUrl);
+                    let productUrl = soldOutProducts[i];
+                    let productId = getProductId(soldOutProducts[i]);
                     if (!productId) throw new Error('ProductId not found.');
 
                     const stockUrl = 'https://www.elcorteingles.es/api/stock?products=' + productId;
                     isProductAvailable(stockUrl).then((available) => {
-
                         if( available ){
-                            notify(userData.notification, productUrl);
+                            configManager.setProductAvailable(productUrl).then(() => {
+                                notify(configManager.getNotificationData(), productUrl);
+                            });
                         }
                     });
                 }catch (e) {
