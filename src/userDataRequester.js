@@ -4,6 +4,7 @@ const configManager = require('./configManager');
 
 const setConfigData = async() => {
     if( !configManager.configFileExists() ) await requestUserData();
+    else console.log('Configuration file found');
 };
 
 /**
@@ -17,10 +18,10 @@ const requestUserData = async () => {
     while( keepAsking ){
 
         let productUrl = await askForProductUrl();
-        if( productUrl !== '' ){
-            userData.productUrl.push(productUrl);
-        }else keepAsking = false;
 
+        if (productUrl !== '') userData.productUrl.push(productUrl);
+        else if (!userData.productUrl.length) console.log('At least one product url is required');
+        else keepAsking = false;
     }
 
     userData.notification = await askForNotificationData();
@@ -55,22 +56,26 @@ const askForEmailData = async () => {
         {
             name: 'smtp',
             type: 'text',
-            message: 'Enter SMTP host'
+            message: 'Enter SMTP host',
+            validate: emptyValidation
         },
         {
             name: 'port',
             type: 'number',
-            message: 'Enter SMTP port'
+            message: 'Enter SMTP port',
+            validate: emptyValidation
         },
         {
             name: 'user',
             type: 'text',
-            message: 'Enter SMTP user'
+            message: 'Enter SMTP user',
+            validate: emptyValidation
         },
         {
             name: 'password',
             type: 'password',
-            message: 'Enter SMTP password'
+            message: 'Enter SMTP password',
+            validate: emptyValidation
         }
     ];
     const onCancel = () => process.exit();
@@ -90,6 +95,10 @@ const askForProductUrl = async () => {
 
     const answer = await prompts(questions, {onCancel});
     return answer.productUrl;
+};
+
+const emptyValidation = (value) => {
+    return value === '' ? 'Value must not be empty' : true;
 };
 
 module.exports = setConfigData;
