@@ -3,9 +3,11 @@ const path = require('path');
 
 const configFile = path.join(__dirname,'../config.json');
 
-const read = () => {
-    if( !fs.existsSync(configFile) ) return {};
+const configFileExists = () => {
+    return fs.existsSync(configFile);
+};
 
+const read = () => {
     try{
         return JSON.parse(fs.readFileSync(configFile));
     }catch (e) {
@@ -82,5 +84,6 @@ module.exports = {
     saveFromUserRequest: saveFromUserRequest,
     getSoldOutProductsUrl: getSoldOutProductsUrl,
     getNotificationData: getNotificationData,
-    setProductAvailable: setProductAvailable
+    setProductAvailable: setProductAvailable,
+    configFileExists: configFileExists
 };

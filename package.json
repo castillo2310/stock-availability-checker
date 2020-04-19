@@ -2,10 +2,7 @@
   "name": "eci-stock-check",
   "version": "1.0.0",
   "description": "Checks if given products are available",
-  "main": "src/app.js",
-  "directories": {
-    "doc": "docs"
-  },
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

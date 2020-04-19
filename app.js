@@ -1,13 +1,13 @@
 
 const getProductId = require('./src/urlParser');
 const isProductAvailable = require('./src/productAvailability');
-const requestUserData = require('./src/userDataRequester');
+const setConfigData = require('./src/userDataRequester');
 const notify = require('./src/notifier');
 const configManager = require('./src/configManager');
 
 try {
 
-    requestUserData().then(() => {
+    setConfigData().then(() => {
         console.log('Starting to check availability...');
 
         let interval = setInterval(() => {
@@ -18,7 +18,6 @@ try {
                 return console.log('All products are available. Script ends.')
             }
 
-            console.log('Checking products');
             for(let i=0;i<soldOutProducts.length;i++){
                 try {
                     let productUrl = soldOutProducts[i];

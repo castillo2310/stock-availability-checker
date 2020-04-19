@@ -1,11 +1,15 @@
 const prompts = require('prompts');
 const configManager = require('./configManager');
 
+
+const setConfigData = async() => {
+    if( !configManager.configFileExists() ) await requestUserData();
+};
+
 /**
  * Request required user data.
  * Keeps asking for product url until the user enters empty value
  * Saves requested data to config file
- * @returns {Promise<{productUrl: []}>}
  */
 const requestUserData = async () => {
     const userData = {productUrl: [], notification:{}};
@@ -20,9 +24,7 @@ const requestUserData = async () => {
     }
 
     userData.notification = await askForNotificationData();
-
     await configManager.saveFromUserRequest(userData);
-    return userData;
 };
 
 const askForNotificationData = async () => {
@@ -90,4 +92,4 @@ const askForProductUrl = async () => {
     return answer.productUrl;
 };
 
-module.exports = requestUserData;
+module.exports = setConfigData;
