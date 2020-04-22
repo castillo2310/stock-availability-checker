@@ -1,4 +1,4 @@
-const supplierList = require('./Supplier');
+const supplierList = require('./SupplierList');
 
 module.exports = class Product{
 
