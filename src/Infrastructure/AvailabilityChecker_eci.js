@@ -1,11 +1,6 @@
 const request = require('request-promise-native');
 
-/**
- * Does the request and returns a promise with boolean availability value
- * @param product
- * @returns {Promise<boolean>}
- */
-const isProductAvailable = async (product) => {
+const checkProductAvailability = async (product) => {
     return new Promise((resolve, reject) => {
 
         let productId = getProductId(product.url);
@@ -21,6 +16,7 @@ const isProductAvailable = async (product) => {
 
     });
 };
+
 
 /**
  * Parses the url to get the product id
@@ -45,4 +41,4 @@ const getProductId = (url) => {
     }
 };
 
-module.exports = isProductAvailable;
+module.exports = checkProductAvailability;

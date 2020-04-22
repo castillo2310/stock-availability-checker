@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const Product = require('./domain/Product');
+const Product = require('./Domain/Product');
 
 const configFile = path.join(__dirname,'../config.json');
 

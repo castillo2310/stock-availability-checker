@@ -1,4 +1,3 @@
-const url = require('url');
 const supplierList = require('./SupplierList');
 
 module.exports = class Product{

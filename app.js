@@ -1,4 +1,4 @@
-const isProductAvailable = require('./src/productAvailability');
+const checkAvailability = require('./src/Application/AvailabilityChecker');
 const setConfigData = require('./src/userDataRequester');
 const notify = require('./src/notifier');
 const configManager = require('./src/configManager');
@@ -18,8 +18,8 @@ const configManager = require('./src/configManager');
             for(let i=0;i<soldOutProducts.length;i++){
                 let product = soldOutProducts[i];
                 let productUrl = product.url;
-                isProductAvailable(product).then((available) => {
-                    if( available ){
+                checkAvailability(product).then((isAvailable) => {
+                    if (isAvailable) {
                         product.available = true;
                         configManager.setProductAvailable(productUrl).then(() => {
                             notify(configManager.getNotificationData(), productUrl);
