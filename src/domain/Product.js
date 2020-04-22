@@ -1,3 +1,4 @@
+const url = require('url');
 const supplierList = require('./SupplierList');
 
 module.exports = class Product{
@@ -6,9 +7,9 @@ module.exports = class Product{
     #supplier = '';
     #available = false;
 
-    constructor(url, supplier, available) {
+    constructor(url, available) {
         this.#url = url;
-        this.#supplier = supplier;
+        this.#supplier = this.#getSupplierFromURL(url);
         this.available = available;
 
         this.#validate();
@@ -16,9 +17,6 @@ module.exports = class Product{
     #validate = () => {
         if( typeof this.#url !== 'string' ) throw new Error('Url must be a string');
         if( this.#url === '' ) throw new Error('Url not be empty');
-
-        if( typeof this.#supplier !== 'string' ) throw new Error('Supplier must be a string');
-        if( !supplierList.hasOwnProperty(this.#supplier) ) throw new Error('Supplier must be in the supplier list');
     };
 
     get url(){
@@ -36,5 +34,13 @@ module.exports = class Product{
     set available(available){
         if( typeof available !== 'boolean' ) throw new Error('Supplier must be a boolean');
         this.#available = available;
+    }
+
+    #getSupplierFromURL = (productUrl) => {
+        const hostname = new URL(productUrl).hostname;
+        const supplier = supplierList.find(s => hostname.indexOf(s.hostname));
+        if( !supplier ) throw new Error("Supplier not found in "+productUrl);
+
+        return supplier.value;
     }
 };

@@ -1,6 +1,5 @@
-const supplierList = Object.freeze({
-    eci: {name: "El Corte Inglés", value: "eci"}
-});
-
+const supplierList = [
+    {name: "El Corte Inglés", value: "eci", hostname: 'elcorteingles.es'}
+];
 
 module.exports = supplierList;

@@ -30,7 +30,7 @@ const getProducts = () => {
 
     for (let i=0;i<data.products.length;i++) {
         let product = data.products[i];
-        products.push(new Product(product.url, product.supplier, product.available));
+        products.push(new Product(product.url, product.available));
     }
     return products;
 };
