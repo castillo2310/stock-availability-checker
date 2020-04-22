@@ -7,7 +7,6 @@ const configManager = require('./src/configManager');
         console.log('Starting to check availability...');
 
         const products =  configManager.getProducts();
-
         let interval = setInterval(() => {
 
             let soldOutProducts = products.filter(p => !p.available);
@@ -19,7 +18,7 @@ const configManager = require('./src/configManager');
             for(let i=0;i<soldOutProducts.length;i++){
                 let product = soldOutProducts[i];
                 let productUrl = product.url;
-                isProductAvailable(productUrl).then((available) => {
+                isProductAvailable(product).then((available) => {
                     if( available ){
                         product.available = true;
                         configManager.setProductAvailable(productUrl).then(() => {

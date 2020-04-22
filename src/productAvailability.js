@@ -2,13 +2,13 @@ const request = require('request-promise-native');
 
 /**
  * Does the request and returns a promise with boolean availability value
- * @param productUrl
+ * @param product
  * @returns {Promise<boolean>}
  */
-const isProductAvailable = async (productUrl) => {
+const isProductAvailable = async (product) => {
     return new Promise((resolve, reject) => {
 
-        let productId = getProductId(productUrl);
+        let productId = getProductId(product.url);
         if (!productId) reject('ProductId not found.');
 
         const stockUrl = 'https://www.elcorteingles.es/api/stock?products=' + productId;
