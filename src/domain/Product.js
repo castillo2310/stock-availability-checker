@@ -9,7 +9,7 @@ module.exports = class Product{
     constructor(url, supplier, available) {
         this.#url = url;
         this.#supplier = supplier;
-        this.#available = available;
+        this.available = available;
 
         this.#validate();
     }
@@ -19,8 +19,6 @@ module.exports = class Product{
 
         if( typeof this.#supplier !== 'string' ) throw new Error('Supplier must be a string');
         if( !supplierList.hasOwnProperty(this.#supplier) ) throw new Error('Supplier must be in the supplier list');
-
-        if( typeof this.#available !== 'boolean' ) throw new Error('Supplier must be a boolean');
     };
 
     get url(){
@@ -35,4 +33,8 @@ module.exports = class Product{
         return this.#available;
     }
 
+    set available(available){
+        if( typeof available !== 'boolean' ) throw new Error('Supplier must be a boolean');
+        this.#available = available;
+    }
 };
