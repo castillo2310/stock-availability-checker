@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/castillo2310/eci-stock-check.git"
+    "url": "git+https://github.com/castillo2310/stock-availability-checker.git"
   },
   "author": "ccastillo",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/castillo2310/eci-stock-check/issues"
+    "url": "https://github.com/castillo2310/stock-availability-checker/issues"
   },
-  "homepage": "https://github.com/castillo2310/eci-stock-check#readme",
+  "homepage": "https://github.com/castillo2310/stock-availability-checker#readme",
   "dependencies": {
     "nodemailer": "^6.4.6",
     "prompts": "^2.3.2",
