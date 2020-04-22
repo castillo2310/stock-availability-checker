@@ -8,14 +8,15 @@ const configManager = require('./src/configManager');
 
         let interval = setInterval(() => {
 
-            let soldOutProducts =  configManager.getSoldOutProductsUrl();
+            let products =  configManager.getProducts();
+            let soldOutProducts = products.filter(p => !p.available);
             if( !soldOutProducts.length ){
                 clearInterval(interval);
                 return console.log('All products are available. Script ends.')
             }
 
             for(let i=0;i<soldOutProducts.length;i++){
-                let productUrl = soldOutProducts[i];
+                let productUrl = soldOutProducts[i].url;
                 isProductAvailable(productUrl).then((available) => {
                     if( available ){
                         configManager.setProductAvailable(productUrl).then(() => {

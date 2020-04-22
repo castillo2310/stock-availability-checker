@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const Product = require('./domain/Product');
 
 const configFile = path.join(__dirname,'../config.json');
 
@@ -21,17 +22,17 @@ const getNotificationData = () => {
     return data.notification;
 };
 
-const getSoldOutProductsUrl = () => {
-    const soldOutProductsUrl = [];
+const getProducts = () => {
+    const products = [];
 
     const data = read();
     if( !data.products ) return [];
 
     for (let i=0;i<data.products.length;i++) {
         let product = data.products[i];
-        if( !product.available ) soldOutProductsUrl.push(product.url);
+        products.push(new Product(product.url, product.supplier, product.available));
     }
-    return soldOutProductsUrl;
+    return products;
 };
 
 const saveFromUserRequest = async (data) => {
@@ -82,7 +83,7 @@ const save = async (data) => {
 
 module.exports = {
     saveFromUserRequest: saveFromUserRequest,
-    getSoldOutProductsUrl: getSoldOutProductsUrl,
+    getProducts: getProducts,
     getNotificationData: getNotificationData,
     setProductAvailable: setProductAvailable,
     configFileExists: configFileExists
