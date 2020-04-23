@@ -1,5 +1,5 @@
 const supplierCheckers = {
-    eci: require('../Infrastructure/AvailabilityChecker_eci')
+    eci: require('../Infrastructure/ProductAvailabilityChecker_eci')
 };
 
 const checkProductAvailability = async (product) => {

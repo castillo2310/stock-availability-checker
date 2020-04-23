@@ -1,4 +1,4 @@
-const checkAvailability = require('./src/Application/AvailabilityChecker');
+const checkAvailability = require('./src/Application/ProductAvailabilityChecker');
 const setConfigData = require('./src/userDataRequester');
 const notify = require('./src/Application/Notifier');
 const configManager = require('./src/configManager');
