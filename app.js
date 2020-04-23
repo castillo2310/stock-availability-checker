@@ -1,15 +1,11 @@
 const checkProductAvailability = require('./src/Application/ProductAvailabilityChecker');
-const setConfigData = require('./src/userDataRequester');
+const requestData = require('./src/Application/DataRequester');
 const notify = require('./src/Application/Notifier');
-const configManager = require('./src/configManager');
 
 const delay = 30000;
 
-setConfigData().then(() => {
+requestData().then(({products, notification}) => {
     console.log('Starting to check availability...');
-
-    const products =  configManager.getProducts();
-    const notificationData = configManager.getNotificationData();
 
     (function checkStockAvailability(){
 
@@ -21,7 +17,7 @@ setConfigData().then(() => {
             checkProductAvailability(product).then((isAvailable) => {
                 if (isAvailable) {
                     product.available = true;
-                    notify(notificationData, product);
+                    notify(notification, product);
                 }
             }).catch((error) => {
                 console.log('Error: ', error);

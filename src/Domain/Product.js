@@ -6,7 +6,7 @@ module.exports = class Product{
     #supplier = '';
     #available = false;
 
-    constructor(url, available) {
+    constructor(url, available = false) {
         this.#url = url;
         this.#supplier = this.#getSupplierFromURL(url);
         this.available = available;
