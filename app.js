@@ -7,6 +7,7 @@ const configManager = require('./src/configManager');
         console.log('Starting to check availability...');
 
         const products =  configManager.getProducts();
+        const notificationData = configManager.getNotificationData();
         let interval = setInterval(() => {
 
             let soldOutProducts = products.filter(p => !p.available);
@@ -21,9 +22,7 @@ const configManager = require('./src/configManager');
                 checkAvailability(product).then((isAvailable) => {
                     if (isAvailable) {
                         product.available = true;
-                        configManager.setProductAvailable(productUrl).then(() => {
-                            notify(configManager.getNotificationData(), productUrl);
-                        });
+                        notify(notificationData, productUrl);
                     }
                 }).catch((error) => {
                     console.log('Error: ', error);
