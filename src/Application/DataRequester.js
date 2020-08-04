@@ -13,6 +13,7 @@ const handler = async () => {
     }
 
     const data = getConfig();
+
     return {
         notification: data.notification,
         products: getProducts(data.productUrlList)
@@ -33,10 +34,11 @@ const saveConfig = (config) => {
 
 const getProducts = (productUrlList) => {
     const products = [];
-
     for (let i=0;i<productUrlList.length;i++) {
-        products.push(new Product(productUrlList[i]));
+        const product = Product.create(productUrlList[i]);
+        products.push(product);
     }
+
     return products;
 };
 
