@@ -16,6 +16,7 @@ The script will check if the requested products availability every 30 seconds, a
 | Name | Site |
 | ------ | ------ |
 | El Corte Inglés | [https://www.elcorteingles.es/](https://www.elcorteingles.es/) |
+| Decathlon | [https://www.decathlon.es/](https://www.decathlon.es/) |
 
 ## Current notification methods: 
 | Name | 
